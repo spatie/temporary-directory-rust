@@ -50,8 +50,6 @@ Requires Rust 1.89 or newer. No PHP runtime or external programs are required.
 
 To create a temporary directory, call `TemporaryDirectory::new().create()?`, or use the shorthand `TemporaryDirectory::make()?`. Use `name`, `location` and `permission` before creation to customize the directory. The [usage guide](docs/usage.md) explains each option with examples.
 
-If you're coming from PHP, the [PHP and Rust API guide](PARITY.md) shows the corresponding method names and differences to keep in mind.
-
 Automatic cleanup is **off by default**. Enable `.delete_when_destroyed(true)` before creation
 to remove the directory at scope exit, including ordinary error returns. Call `delete()` explicitly
 when you need to handle a cleanup error.

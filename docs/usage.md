@@ -88,7 +88,7 @@ let temporary_directory = TemporaryDirectory::new()
 # }
 ```
 
-Rust uses this builder method in place of PHP's constructor argument or `make(location)`. `TemporaryDirectory::make()` only creates a directory in the system's temporary directory.
+`TemporaryDirectory::make()` creates a directory in the system's temporary directory. Use `location()` to choose a different parent.
 
 ## Setting custom permissions for a temporary directory
 
@@ -122,7 +122,7 @@ temporary_directory.path_for("dumps/datadump.dat")?;
 # }
 ```
 
-`path()` returns the root. `path_for()` creates parent directories and returns a `PathBuf`. As in PHP, child paths containing a dot are treated as filenames; paths without dots are directories. See [path handling details](#path-handling-details) for extensionless files and directories with dots in their names.
+`path()` returns the root. `path_for()` creates parent directories and returns a `PathBuf`. Child paths containing a dot are treated as filenames; paths without dots are directories. See [path handling details](#path-handling-details) for extensionless files and directories with dots in their names.
 
 ## Emptying a temporary directory
 
@@ -176,7 +176,7 @@ handle_temporary_files()?;
 # }
 ```
 
-You can also call `drop(temporary_directory)`, just as you can call `unset()` on a PHP object instance. Automatic cleanup is off by default; pass `false` to disable it. Drop cannot return errors, so use explicit `delete()` when a cleanup failure must be handled. Process termination and `mem::forget` can bypass Drop; it is not secret erasure.
+You can also call `drop(temporary_directory)`. Automatic cleanup is off by default; pass `false` to disable it. Drop cannot return errors, so use explicit `delete()` when a cleanup failure must be handled. Process termination and `mem::forget` can bypass Drop; it is not secret erasure.
 
 ## Directory lifecycle details
 
