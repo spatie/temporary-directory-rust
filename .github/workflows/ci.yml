@@ -51,12 +51,13 @@ jobs:
       - run: cargo +1.89.0 test --locked --doc --all-features
 
   audit:
-    name: Security audit
+    name: Security audit and docs
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+      - run: python3 scripts/check-docs
       - run: cargo install cargo-audit --locked
       - run: cargo audit
