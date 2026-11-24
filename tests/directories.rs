@@ -1,3 +1,5 @@
+//! Directory lifecycle, path validation and platform-specific filesystem behavior.
+
 use spatie_temporary_directory::{Error, TemporaryDirectory};
 use std::fs;
 

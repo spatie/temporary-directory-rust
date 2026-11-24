@@ -3,17 +3,26 @@ name = "spatie-temporary-directory"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.89"
+authors = ["Spatie <info@spatie.be>"]
 description = "Quickly create, use and delete temporary directories"
 license = "MIT"
 repository = "https://github.com/spatie/temporary-directory-rust"
+documentation = "https://docs.rs/spatie-temporary-directory"
+readme = "README.md"
 keywords = ["temporary", "directory", "filesystem"]
 categories = ["filesystem"]
+include = ["/src/", "/tests/*.rs", "/docs/", "/README.md", "/LICENSE.md", "/CHANGELOG.md", "/CONTRIBUTING.md", "/SECURITY.md", "/PARITY.md", "/Cargo.lock"]
 
 [dependencies]
 thiserror = "2"
 
 [dev-dependencies]
 tempfile = "3"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+missing_debug_implementations = "warn"
 
 [profile.release]
 lto = "thin"

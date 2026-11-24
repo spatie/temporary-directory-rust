@@ -1,5 +1,10 @@
 # Quickly create, use and delete temporary directories
 
+[![Latest version on crates.io](https://img.shields.io/crates/v/spatie-temporary-directory.svg?style=flat-square)](https://crates.io/crates/spatie-temporary-directory)
+[![Tests](https://img.shields.io/github/actions/workflow/status/spatie/temporary-directory-rust/ci.yml?branch=main&style=flat-square)](https://github.com/spatie/temporary-directory-rust/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/spatie/temporary-directory-rust/blob/main/LICENSE.md)
+[![Total downloads](https://img.shields.io/crates/d/spatie-temporary-directory.svg?style=flat-square)](https://crates.io/crates/spatie-temporary-directory)
+
 This package allows you to quickly create, use and delete a temporary directory in the system's temporary directory.
 
 Here's a quick example on how to create a temporary directory and delete it:
@@ -24,7 +29,11 @@ This is the Rust version of [spatie/temporary-directory](https://github.com/spat
 
 ## Support us
 
-Support our open source work by [buying one of our products](https://spatie.be/open-source/support-us).
+[<img src="https://spatie.be/github-ad-image/temporary-directory.jpg" alt="Support Spatie's open source work" width="419px" />](https://spatie.be/github-ad-click/temporary-directory)
+
+We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+
+We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
 
@@ -72,22 +81,22 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ## Contributing
 
-See [Spatie's contribution guidelines](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md).
+See [CONTRIBUTING.md](https://github.com/spatie/temporary-directory-rust/blob/main/CONTRIBUTING.md) and the [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/).
 
-## Security vulnerabilities
+Using an AI coding agent? Load Apollo's [rust-best-practices skill](https://github.com/apollographql/skills/tree/main/skills/rust-best-practices) when writing or reviewing code in this package.
 
-Report security problems to [security@spatie.be](mailto:security@spatie.be).
+## Security Vulnerabilities
+
+Report vulnerabilities privately using the instructions in [SECURITY.md](https://github.com/spatie/temporary-directory-rust/blob/main/SECURITY.md).
 Temporary files are not a sandbox. Use a trusted parent directory and `permission(0o700)` for private data.
 Do not let another process replace directories or symlinks while resolving child paths.
-
-## Postcardware
-
-If you use this package in production, we'd appreciate a postcard from your hometown.
-Our address is Spatie, Kruikstraat 22, 2018 Antwerp, Belgium.
 
 ## Credits
 
 Original PHP package by Alex Vanderbist and [contributors](https://github.com/spatie/temporary-directory/graphs/contributors).
+
+- [Alex Vanderbist](https://github.com/AlexVanderbist)
+- [All contributors](https://github.com/spatie/temporary-directory-rust/graphs/contributors)
 
 ## License
 
