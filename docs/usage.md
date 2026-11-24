@@ -9,18 +9,26 @@ weight: 4
 
 To create a temporary directory simply call the `create` method on a `TemporaryDirectory` object.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::new().create()?;
+# temporary_directory.delete()?;
+# Ok(())
+# }
 ```
 
 Alternatively, use the static `make` method on a `TemporaryDirectory` object.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::make()?;
+# temporary_directory.delete()?;
+# Ok(())
+# }
 ```
 
 By default, the temporary directory will be created in your system's temporary directory (usually `/tmp`), with an automatically generated name.
@@ -29,23 +37,35 @@ By default, the temporary directory will be created in your system's temporary d
 
 If you want to use a custom name for your temporary directory instead of the generated name call the `name` method with a string `name` argument before the `create` method.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
+# let parent = tempfile::tempdir()?;
+# let name = format!("{}-example", parent.path().file_name().unwrap().to_string_lossy());
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::new()
     .name(name)?
     .create()?;
+# temporary_directory.delete()?;
+# Ok(())
+# }
 ```
 
 By default an error will be returned if a directory already exists with the given argument. You can override this behaviour by calling the `force` method in combination with the `name` method.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
+# let parent = tempfile::tempdir()?;
+# let name = format!("{}-example", parent.path().file_name().unwrap().to_string_lossy());
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::new()
     .name(name)?
     .force()
     .create()?;
+# temporary_directory.delete()?;
+# Ok(())
+# }
 ```
 
 This deletes the existing entry and all of its contents, so use only a trusted parent and name. Names are trimmed; reserved characters, `.` and `..` are rejected.
@@ -54,12 +74,18 @@ This deletes the existing entry and all of its contents, so use only a trusted p
 
 You can set a custom location in which your temporary directory will be created by calling the `location` method with a `location` argument.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
+# let parent = tempfile::tempdir()?;
+# let location = parent.path();
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::new()
     .location(location)
     .create()?;
+# temporary_directory.delete()?;
+# Ok(())
+# }
 ```
 
 Rust uses this builder method in place of PHP's constructor argument or `make(location)`. `TemporaryDirectory::make()` only creates a directory in the system's temporary directory.
@@ -68,23 +94,32 @@ Rust uses this builder method in place of PHP's constructor argument or `make(lo
 
 By default, the temporary directory will be created with permissions `0o777`, filtered by the process's umask on Unix. You can customize these permissions by calling the `permission` method with an integer `permission` argument before the `create` method.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::new()
     .permission(0o755)
     .create()?;
+# temporary_directory.delete()?;
+# Ok(())
+# }
 ```
 
 ## Determining paths within the temporary directory
 
 You can use the `path_for` method to determine the full path to a file or directory in the temporary directory:
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::new().create()?;
 temporary_directory.path_for("dumps/datadump.dat")?;
+# assert!(temporary_directory.path().join("dumps").is_dir());
+# temporary_directory.delete()?;
+# Ok(())
+# }
 ```
 
 `path()` returns the root. `path_for()` creates parent directories and returns a `PathBuf`. As in PHP, child paths containing a dot are treated as filenames; paths without dots are directories. See [path handling details](#path-handling-details) for extensionless files and directories with dots in their names.
@@ -93,16 +128,27 @@ temporary_directory.path_for("dumps/datadump.dat")?;
 
 Use the `empty` method to delete all the files inside the temporary directory.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
+# let temporary_directory = spatie_temporary_directory::TemporaryDirectory::make()?.delete_when_destroyed(true);
+# std::fs::write(temporary_directory.path_for("example.txt")?, "example")?;
 temporary_directory.empty()?;
+# assert_eq!(std::fs::read_dir(temporary_directory.path())?.count(), 0);
+# Ok(())
+# }
 ```
 
 ## Deleting a temporary directory
 
 Once you're done processing your temporary data you can delete the entire temporary directory using the `delete` method. All files inside of it will be deleted.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
+# let temporary_directory = spatie_temporary_directory::TemporaryDirectory::make()?.delete_when_destroyed(true);
 temporary_directory.delete()?;
+# assert!(!temporary_directory.exists());
+# Ok(())
+# }
 ```
 
 <a id="deleting-a-temporary-directory-when-the-object-is-destroyed"></a>
@@ -111,7 +157,8 @@ temporary_directory.delete()?;
 
 If you want to automatically have the filesystem directory deleted when the object instance goes out of scope, you can enable `delete_when_destroyed(true)` on the `TemporaryDirectory` object.
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
 use spatie_temporary_directory::{Error, TemporaryDirectory};
 
 fn handle_temporary_files() -> Result<(), Error> {
@@ -125,6 +172,8 @@ fn handle_temporary_files() -> Result<(), Error> {
 }
 
 handle_temporary_files()?;
+# Ok(())
+# }
 ```
 
 You can also call `drop(temporary_directory)`, just as you can call `unset()` on a PHP object instance. Automatic cleanup is off by default; pass `false` to disable it. Drop cannot return errors, so use explicit `delete()` when a cleanup failure must be handled. Process termination and `mem::forget` can bypass Drop; it is not secret erasure.
@@ -145,9 +194,13 @@ Use `exists()` to check whether the configured path exists and `get_name()` to g
 
 `path_for` strips leading and trailing `/`, rejects parent components and existing symlink components, and checks dots in the child path only. A dot in the parent location does not change whether a child is treated as a file. For an extensionless file or a dotted directory, use `path().join(...)` and the standard filesystem API:
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
+# let temporary_directory = spatie_temporary_directory::TemporaryDirectory::make()?.delete_when_destroyed(true);
 std::fs::write(temporary_directory.path().join("LICENSE"), "extensionless file")?;
 std::fs::create_dir_all(temporary_directory.path().join("cache.v2"))?;
+# Ok(())
+# }
 ```
 
 A plain `PathBuf::join` does not validate containment. Only join trusted relative paths; do not use it to bypass a rejected `path_for` call. Child-path checks do not protect against another process changing paths between checks and use.

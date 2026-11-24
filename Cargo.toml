@@ -5,6 +5,7 @@ edition = "2024"
 rust-version = "1.89"
 description = "Quickly create, use and delete temporary directories"
 license = "MIT"
+repository = "https://github.com/spatie/temporary-directory-rust"
 keywords = ["temporary", "directory", "filesystem"]
 categories = ["filesystem"]
 

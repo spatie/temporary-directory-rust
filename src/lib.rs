@@ -264,6 +264,8 @@ fn remove(path: &Path) -> io::Result<()> {
 
 #[cfg(doctest)]
 mod guide {
+    #[doc = include_str!("../docs/introduction.md")]
+    mod introduction {}
     #[doc = include_str!("../docs/usage.md")]
     mod usage {}
 }

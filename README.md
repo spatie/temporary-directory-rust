@@ -4,7 +4,8 @@ This package allows you to quickly create, use and delete a temporary directory 
 
 Here's a quick example on how to create a temporary directory and delete it:
 
-```rust,ignore
+```rust
+# fn main() -> Result<(), spatie_temporary_directory::Error> {
 use spatie_temporary_directory::TemporaryDirectory;
 
 let temporary_directory = TemporaryDirectory::new().create()?;
@@ -14,6 +15,9 @@ temporary_directory.path_for("temporaryfile.txt")?;
 
 // Delete the temporary directory and all the files inside it
 temporary_directory.delete()?;
+# assert!(!temporary_directory.exists());
+# Ok(())
+# }
 ```
 
 This is the Rust version of [spatie/temporary-directory](https://github.com/spatie/temporary-directory).
@@ -37,7 +41,7 @@ Requires Rust 1.89 or newer. The crate is not yet published to crates.io. Commit
 
 To create a temporary directory, call `TemporaryDirectory::new().create()?`, or use the shorthand `TemporaryDirectory::make()?`. Use `name`, `location` and `permission` before creation to customize the directory. The [usage guide](docs/usage.md) explains each option with examples.
 
-If you're coming from PHP, the [PHP and Rust API guide](docs/parity.md) shows the corresponding method names and differences to keep in mind.
+If you're coming from PHP, the [PHP and Rust API guide](PARITY.md) shows the corresponding method names and differences to keep in mind.
 
 Automatic cleanup is **off by default**. Enable `.delete_when_destroyed(true)` before creation
 to remove the directory at scope exit, including ordinary error returns. Call `delete()` explicitly
@@ -60,7 +64,7 @@ cargo test --locked --doc
 RUSTDOCFLAGS="-D warnings" cargo doc --locked --no-deps
 ```
 
-The `documentation` integration tests extract every Rust code block from the README and guides, compile it and run it. Setup supplies the existing directory, name and location outside the displayed examples, and removes test directories afterwards. The fragments use `rust,ignore` because they are executed by this target rather than by rustdoc without their application context.
+Rustdoc compiles and runs every Rust code block in the README and guides. Setup and cleanup use hidden `# ` lines so the displayed examples stay close to the PHP documentation.
 
 ## Changelog
 
