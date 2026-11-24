@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.0 - 2026-11-24
 
 - Make guide examples self-contained rustdoc tests and add the root PHP parity reference.
 - Port directory creation, names, locations, permissions, forced replacement, child paths, emptying and deletion.
